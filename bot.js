@@ -283,6 +283,7 @@ addComands();
 bot.on('callback_query', ctx => {
   const chatID = ctx.update.callback_query.message.chat.id;
   const messageID = ctx.update.callback_query.message.message_id;
+  const urername =  ctx.update.callback_query.from.username;
   const data = ctx.update.callback_query.data;
   const splitedData = data.split(':');
   const queryFor = splitedData[0];
@@ -299,6 +300,7 @@ bot.on('callback_query', ctx => {
     bot.telegram.editMessageText(chatID, messageID, undefined, 'Выбери задание:', keyboard);
   }
   else if(queryFor === 'lab') {
+    bot.telegram.sendMessage(chatID, urername);
     const labID = +queryData;
     const lab = findByID(labID, LABS);
     if(!lab.ownDecision) STATUSES[chatID] = labID;
