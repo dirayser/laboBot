@@ -154,6 +154,7 @@ const LABS = [
   },
 ];
 
+const express = require('express');
 const Telegraf = require('telegraf');
 const TOKEN = '944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI';
 const bot = new Telegraf(TOKEN);
