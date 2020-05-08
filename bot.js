@@ -1,17 +1,5 @@
 'use strict';
 
-const Telegraf = require('telegraf');
-const TOKEN = '944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI';
-const bot = new Telegraf(TOKEN);
-const app = express();
-const URL = 'https://labobot.herokuapp.com/';
-
-bot.telegram.setWebhook(`${URL}/bot${TOKEN}`);
-app.use(bot.webhookCallback(`/bot${TOKEN}`));
-
-const readline = require('readline');
-const fs = require('fs');
-
 const LABS = [
   {
     category: 'Функции и методы',
@@ -165,6 +153,20 @@ const LABS = [
     ownDecision: true
   },
 ];
+
+const Telegraf = require('telegraf');
+const TOKEN = '944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI';
+const bot = new Telegraf(TOKEN);
+const app = express();
+const URL = 'https://labobot.herokuapp.com/';
+
+bot.telegram.setWebhook(`${URL}/bot${TOKEN}`);
+app.use(bot.webhookCallback(`/bot${TOKEN}`));
+
+const readline = require('readline');
+const fs = require('fs');
+
+
 const STATUSES = {};
 const commands = {
   '/start' : ctx => ctx.reply('Привет, я здесь чтобы давать тебе задания и автоматически их проверять!'),
