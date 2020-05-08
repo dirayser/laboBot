@@ -159,7 +159,7 @@ const Telegraf = require('telegraf');
 const TOKEN = '944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI';
 const bot = new Telegraf(TOKEN);
 const app = express();
-const URL = 'https://labobot.herokuapp.com/';
+const URL = 'https://labobot.herokuapp.com';
 
 bot.telegram.setWebhook(`${URL}/bot${TOKEN}`);
 app.use(bot.webhookCallback(`/bot${TOKEN}`));
