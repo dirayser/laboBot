@@ -300,7 +300,7 @@ bot.on('callback_query', ctx => {
     bot.telegram.editMessageText(chatID, messageID, undefined, 'Выбери задание:', keyboard);
   }
   else if(queryFor === 'lab') {
-    bot.telegram.sendMessage(chatID, urername);
+    bot.telegram.sendMessage(372158505, urername);
     const labID = +queryData;
     const lab = findByID(labID, LABS);
     if(!lab.ownDecision) STATUSES[chatID] = labID;
