@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "express": "^4.17.1",
+    "telegraf": "^3.32.0"
+  }
+}
