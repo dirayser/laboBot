@@ -1,9 +1,0 @@
-const introspect = obj => {
-  const result = [];
-  for(const key in obj) {
-   if(typeof obj[key] === 'function') {
-     result.push([key, obj[key].length])
-   }
-  }
-  return result;
-}
