@@ -157,6 +157,7 @@ const LABS = [
 const express = require('express');
 const Telegraf = require('telegraf');
 const TOKEN = '944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI';
+const PORT = process.env.PORT || 3000;
 const bot = new Telegraf(TOKEN);
 const app = express();
 const URL = 'https://labobot.herokuapp.com';
@@ -188,7 +189,6 @@ const commands = {
 }
 function getManual(file) {
   const manual = fs.readFileSync('./manual.txt', 'utf8');
-  console.log(manual)
   commands['/manual'] = ctx => { ctx.reply(manual) }
 }
 identify(LABS);
@@ -223,7 +223,6 @@ const findByID = (ID, labs) => {
   }
 }
 const testResultToText = result => {
-  console.log(1)
   let text = '';
   let testsPassed = 0;
   result.forEach((test, i) => {
