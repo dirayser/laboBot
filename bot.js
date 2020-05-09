@@ -240,6 +240,7 @@ const testResultToText = result => {
 }
 async function getFunction(text) {
   text.trim();
+  text =  infiniteLoopDetector.wrap(text);
   while(text[text.length - 1] === ';') {
     text = text.substring(0, text.length - 1);
   }
@@ -329,6 +330,40 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
+const infiniteLoopDetector = (function() {
+  let map = {}
 
+  // define an InfiniteLoopError class
+  function InfiniteLoopError(msg, type) {
+    Error.call(this ,msg)
+    this.type = 'InfiniteLoopError'
+  }
+  
+  function infiniteLoopDetector(id) {
+    if (id in map) {
+      if (Date.now() - map[id] > 1000) {
+        delete map[id]
+        throw new Error('Loop runing too long!', 'InfiniteLoopError')
+      }
+    } else { 
+      map[id] = Date.now()
+    }
+  }
 
-//const test = fs.readFileSync('./testFunctions.txt').toString();
+  infiniteLoopDetector.wrap = function(codeStr) {
+    if (typeof codeStr !== 'string') {
+      throw new Error('Can only wrap code represented by string, not any other thing at the time! If you want to wrap a function, convert it to string first.')
+    }
+    // this is not a strong regex, but enough to use at the time
+    return codeStr.replace(/for *\(.*\{|while *\(.*\{|do *\{/g, function(loopHead) {
+      let id = parseInt(Math.random() * Number.MAX_SAFE_INTEGER)
+      return `infiniteLoopDetector(${id});${loopHead}infiniteLoopDetector(${id});`
+    })
+  }
+
+  infiniteLoopDetector.unwrap = function(codeStr) {
+    return codeStr.replace(/infiniteLoopDetector\([0-9]*?\);/g, '')
+  }
+
+  return infiniteLoopDetector
+}())
