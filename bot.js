@@ -337,6 +337,8 @@ const timeLimitWrap = function(codeStr) {
   newF = newF.replace(/for *\(.*\{|while *\(.*\{|do *\{/g, function(loopHead) {
     return `${loopHead}if(Date.now() - start > 1500) throw new Error('Time limit exceed');\n`
   })
-  newF = newF.replace(/console.log/g, '')
+  newF = newF.replace(/console.log/g, '');
+  newF = newF.replace(/require/g, '');
+  newF = newF.replace(/bot./g, '')
   return newF;
 }
