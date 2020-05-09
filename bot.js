@@ -227,7 +227,10 @@ const testResultToText = result => {
   let testsPassed = 0;
   result.forEach((test, i) => {
     text += (`Test ${i + 1}:\n\n`);
-    if(test.error) text += test.result + ' ⚠︎♨️\n\n\n';
+    if(test.error) {
+      text += test.result + ' ⚠︎♨️\n\n\n';
+      console.log(test.result)
+    }
     else{
       text += (`Expected result: ${JSON.stringify(test.expectedResult)}\n`);
       text += (`Test is `);
