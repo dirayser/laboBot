@@ -341,17 +341,19 @@ const timeLimitWrap = function(codeStr) {
     return `${loopHead}if(Date.now() - start > 1500) throw new Error('Time limit exceed');\n`
   })
 
-  newF = newF.replace(/console.log/g, '');
-  newF = newF.replace(/require/g, '');
-  newF = newF.replace(/bot/g, 'notbot');
+  newF = newF.replace(/console/g, 'consolе');
+  newF = newF.replace(/require/g, 'requirе');
+  newF = newF.replace(/bot/g, 'bоt');
   newF = newF.replace(/sendMessage/g, 'youWillNotSendMessage');
   newF = newF.replace(/TOKEN/g, 'youWillNotGetToken');
   newF = newF.replace(/reply/g, 'replyToWho');
-  newF = newF.replace(/Error/g, '');
-  newF = newF.replace(/throw/g, 'throv');
-  newF = newF.replace(/exec/g, 'exс');
+  newF = newF.replace(/Error/g, 'Errоr');
+  newF = newF.replace(/throw/g, 'thrоw');
+  newF = newF.replace(/exec/g, 'exес');
   newF = newF.replace(/process/g, 'processs');
-  newF = newF.replace(/eval/g, 'evul');
+  newF = newF.replace(/eval/g, 'evаl');
+  newF = newF.replace(/Promise/g, 'Promisе');
+  newF = newF.replace(/app/g, 'apр');
 
   return newF;
 }
