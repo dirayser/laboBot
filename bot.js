@@ -241,11 +241,10 @@ const testResultToText = result => {
 async function getFunction(text) {
   text.trim();
   text = `(${text})`;
-  text = infiniteLoopDetector.wrap(text);
+  text = timeLimitWrap(text);
   while(text[text.length - 1] === ';') {
     text = text.substring(0, text.length - 1);
   }
-
   let __fn = function(){};
   try {
     __fn = await eval(`(${text})`);
@@ -263,12 +262,9 @@ function checkFunction(fn, test) {
   const results = [];
   test.arguments.forEach((args, testIndex) => {
     try {
-      try{
       const result = fn(...args);
-      } catch(e){
-        console.log('AAA' + e)
-      }
-    results.push({
+      console.log('AAA' + e);
+      results.push({
       result: result,
       expectedResult: fullCopy(test.results[testIndex]),
       passed: isPassed(result, test.results[testIndex])
@@ -335,39 +331,18 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-const infiniteLoopDetector = (function() {
-  let map = {};
-
-  function InfiniteLoopError(msg, type) {
-    Error.call(this ,msg)
-    this.type = 'InfiniteLoopError'
+const timeLimitWrap = function(codeStr) {
+  if (typeof codeStr !== 'string') {
+    throw new Error('Can only wrap code represented by string, not any other thing at the time! If you want to wrap a function, convert it to string first.')
   }
-  
-  function infiniteLoopDetector(id) {
-    if (id in map) {
-      if (Date.now() - map[id] > 1000) {
-        delete map[id]
-        throw new Error('Loop runing too long!', 'InfiniteLoopError')
-      }
-    } else { 
-      map[id] = Date.now()
-    }
-  }
-
-  infiniteLoopDetector.wrap = function(codeStr) {
-    if (typeof codeStr !== 'string') {
-      throw new Error('Can only wrap code represented by string, not any other thing at the time! If you want to wrap a function, convert it to string first.')
-    }
-    // this is not a strong regex, but enough to use at the time
-    return codeStr.replace(/for *\(.*\{|while *\(.*\{|do *\{/g, function(loopHead) {
-      let id = parseInt(Math.random() * Number.MAX_SAFE_INTEGER)
-      return `infiniteLoopDetector(${id});${loopHead}infiniteLoopDetector(${id});`
-    })
-  }
-
-  infiniteLoopDetector.unwrap = function(codeStr) {
-    return codeStr.replace(/infiniteLoopDetector\([0-9]*?\);/g, '')
-  }
-
-  return infiniteLoopDetector
-}())
+  // this is not a strong regex, but enough to use at the time
+  let newF =  codeStr.replace(/for *\(.*\{|while *\(.*\{|do *\{/, function(loopHead) {
+    let id = parseInt(Math.random() * Number.MAX_SAFE_INTEGER)
+    return `const start = Date.now();${loopHead}`
+  })
+  newF = newF.replace(/for *\(.*\{|while *\(.*\{|do *\{/g, function(loopHead) {
+    return `${loopHead}if(Date.now() - start > 2000) throw new Error('Time limit exceed');`
+  })
+  newF = newF.replace(/console.log/g, '')
+  return newF;
+}
