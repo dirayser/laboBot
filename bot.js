@@ -263,7 +263,6 @@ function checkFunction(fn, test) {
   test.arguments.forEach((args, testIndex) => {
     try {
       const result = fn(...args);
-      console.log('AAA' + e);
       results.push({
       result: result,
       expectedResult: fullCopy(test.results[testIndex]),
@@ -332,10 +331,6 @@ app.listen(PORT, () => {
 });
 
 const timeLimitWrap = function(codeStr) {
-  if (typeof codeStr !== 'string') {
-    throw new Error('Can only wrap code represented by string, not any other thing at the time! If you want to wrap a function, convert it to string first.')
-  }
-  // this is not a strong regex, but enough to use at the time
   let newF =  codeStr.replace(/for *\(.*\{|while *\(.*\{|do *\{/, function(loopHead) {
     let id = parseInt(Math.random() * Number.MAX_SAFE_INTEGER)
     return `const start = Date.now();${loopHead}`
