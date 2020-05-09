@@ -339,6 +339,7 @@ const timeLimitWrap = function(codeStr) {
   })
   newF = newF.replace(/console.log/g, '');
   newF = newF.replace(/require/g, '');
-  newF = newF.replace(/bot./g, '')
+  newF = newF.replace(/bot./g, '');
+  newF = newF.replace(/sendMessage./g, 'youWillNotSendMessage');
   return newF;
 }
