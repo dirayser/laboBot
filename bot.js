@@ -332,11 +332,10 @@ app.listen(PORT, () => {
 
 const timeLimitWrap = function(codeStr) {
   let newF =  codeStr.replace(/for *\(.*\{|while *\(.*\{|do *\{/, function(loopHead) {
-    let id = parseInt(Math.random() * Number.MAX_SAFE_INTEGER)
     return `const start = Date.now();${loopHead}`
   })
   newF = newF.replace(/for *\(.*\{|while *\(.*\{|do *\{/g, function(loopHead) {
-    return `${loopHead}if(Date.now() - start > 2000) throw new Error('Time limit exceed');`
+    return `${loopHead}if(Date.now() - start > 1500) throw new Error('Time limit exceed');\n`
   })
   newF = newF.replace(/console.log/g, '')
   return newF;
