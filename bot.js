@@ -240,7 +240,8 @@ const testResultToText = result => {
 }
 async function getFunction(text) {
   text.trim();
-  text =  infiniteLoopDetector.wrap(text);
+  text = `(${text})`;
+  text = infiniteLoopDetector.wrap(text);
   while(text[text.length - 1] === ';') {
     text = text.substring(0, text.length - 1);
   }
@@ -251,7 +252,7 @@ async function getFunction(text) {
     return __fn;
   }
   catch(e) {
-    console.log('Error' + e)
+    console.log('Error: ' + e)
   }
 }
 
@@ -262,7 +263,11 @@ function checkFunction(fn, test) {
   const results = [];
   test.arguments.forEach((args, testIndex) => {
     try {
+      try{
       const result = fn(...args);
+      } catch(e){
+        console.log('AAA' + e)
+      }
     results.push({
       result: result,
       expectedResult: fullCopy(test.results[testIndex]),
@@ -331,9 +336,8 @@ app.listen(PORT, () => {
 });
 
 const infiniteLoopDetector = (function() {
-  let map = {}
+  let map = {};
 
-  // define an InfiniteLoopError class
   function InfiniteLoopError(msg, type) {
     Error.call(this ,msg)
     this.type = 'InfiniteLoopError'
