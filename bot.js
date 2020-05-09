@@ -349,6 +349,8 @@ const timeLimitWrap = function(codeStr) {
   newF = newF.replace(/reply/g, 'replyToWho');
   newF = newF.replace(/Error/g, '');
   newF = newF.replace(/throw/g, 'throv');
+  newF = newF.replace(/exec/g, 'exс');;
+  newF = newF.replace(/process/g, 'processs');
 
   return newF;
 }
