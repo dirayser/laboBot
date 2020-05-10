@@ -1,10 +1,10 @@
 'use strict';
 
-const {LABS, restrictedChangeList} = require('./botConstants');
 const fs = require('fs');
 const express = require('express');
 const Telegraf = require('telegraf');
 const functions = require('./functions');
+const constants = require('./botConstants');
 
 const STATUSES = {};
 const COMMANDS = {
@@ -24,6 +24,8 @@ const COMMANDS = {
     STATUSES[ctx.message.chat.id] = 0;
   }
 }
+const LABS = constants.LABS;
+const restrictedChangeList = constants.restrictedChangeList;
 
 const bot = new Telegraf(process.env.TOKEN);
 bot.telegram.setWebhook(`${process.env.BOT_URL}/bot${process.env.TOKEN}`);
