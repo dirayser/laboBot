@@ -38,6 +38,7 @@ const testResultToText = result => {
     }
     else{
       text += (`Expected result: ${JSON.stringify(test.expectedResult)}\n`);
+      text += (`Result: ${JSON.stringify(test.result)}\n`);
       text += (`Test is `);
       text += (`${test.passed ? 'passed ✅' : 'not passed ❌'}\n\n\n`);
       if(test.passed) testsPassed++;

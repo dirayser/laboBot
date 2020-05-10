@@ -168,7 +168,11 @@ const restrictedChangeList = {
   'app' : 'apр',
   'fs' : 'FS',
   'LABS' : 'L4BS',
-  'restrictedChangeList': 'restrictedChangеList'
+  'restrictedChangeList': 'restrictedChangеList',
+  'CONSTANTS' : 'C0NSTANTS',
+  'COMMANDS' : 'C0MMANDS',
+  'FUNCTIONS' : 'FUNCTI0NS',
+  'STATUSES' : 'STАTUSES'
 };
 const BOT_URL = 'https://labobot.herokuapp.com';
 const TOKEN = '944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI';
