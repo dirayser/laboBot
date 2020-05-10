@@ -24,14 +24,13 @@ const COMMANDS = {
     STATUSES[ctx.message.chat.id] = 0;
   }
 }
-const LABS = constants.LABS;
-const restrictedChangeList = constants.restrictedChangeList;
+const {LABS, restrictedChangeList, BOT_URL, TOKEN}  = constants;
 
-const bot = new Telegraf('944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI');
-bot.telegram.setWebhook(`${'https://labobot.herokuapp.com'}/bot${'944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI'}`);
+const bot = new Telegraf(TOKEN);
+bot.telegram.setWebhook(`${BOT_URL}/bot${TOKEN}`);
 
 const app = express();
-app.use(bot.webhookCallback(`/bot${'944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI'}`));
+app.use(bot.webhookCallback(`/bot${TOKEN}`));
 
 functions.identify(LABS);
 functions.ownDecisioned(LABS);

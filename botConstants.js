@@ -166,8 +166,12 @@ const restrictedChangeList = {
   'Promise' : 'Promisе',
   'app' : 'apр',
 };
+const BOT_URL = 'https://labobot.herokuapp.com';
+const TOKEN = '944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI';
 
 module.exports = {
   LABS,
-  restrictedChangeList
+  restrictedChangeList,
+  BOT_URL,
+  TOKEN
 }
