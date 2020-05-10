@@ -123,7 +123,7 @@ const timeLimitWrap = function(codeStr) {
 const restrictedChange = (textFn, list) => {
   let copy = fullCopy(textFn);
   for(const restricted in list) {
-    copy = text.replace(new RegExp(restricted, 'g'), list[restricted])
+    copy = copy.replace(new RegExp(restricted, 'g'), list[restricted])
   }
   return copy;
 }
@@ -136,9 +136,9 @@ const removeSymbFromEnd = (textFn, symb) => {
 }
 const prepareTextFunction = (textFn, list) => {
   let copy = textFn;
-  copy = timeLimitWrap(textFn);
-  copy = restrictedChange(textFn, list);
-  copy = removeSymbFromEnd(textFn, ';');
+  copy = timeLimitWrap(copy);
+  copy = restrictedChange(copy, list);
+  copy = removeSymbFromEnd(copy, ';');
   copy.trim();
   copy = `(${copy})`;
   return copy;
