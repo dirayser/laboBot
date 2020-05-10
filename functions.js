@@ -49,6 +49,7 @@ const testResultToText = result => {
 }
 async function getFunction(textFn, list) {
   textFn = prepareTextFunction(textFn, list);
+  console.log(textFn)
   let __fn = function(){};
   try {
     __fn = await eval(textFn);
