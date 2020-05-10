@@ -156,6 +156,7 @@ const restrictedChangeList = {
   'require' : 'requirе',
   'bot' : 'bоt',
   'sendMessage' : 'SеndMessage',
+  'Telegraf' : 'Telegrаf',
   'TOKEN' : 'T0KEN',
   'reply' : 'replу',
   'Error' : 'Errоr',
@@ -165,7 +166,9 @@ const restrictedChangeList = {
   'eval' : 'evаl',
   'Promise' : 'Promisе',
   'app' : 'apр',
-  'fs' : 'FS'
+  'fs' : 'FS',
+  'LABS' : 'L4BS',
+  'restrictedChangeList': 'restrictedChangеList'
 };
 const BOT_URL = 'https://labobot.herokuapp.com';
 const TOKEN = '944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI';
