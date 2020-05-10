@@ -26,7 +26,7 @@ const COMMANDS = {
 }
 
 const bot = new Telegraf(process.env.TOKEN);
-bot.telegram.setWebhook(`${process.env.URL}/bot${process.env.TOKEN}`);
+bot.telegram.setWebhook(`${process.env.BOT_URL}/bot${process.env.TOKEN}`);
 
 const app = express();
 app.use(bot.webhookCallback(`/bot${process.env.TOKEN}`));
