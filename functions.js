@@ -56,7 +56,7 @@ async function getFunction(textFn, list) {
     return __fn;
   }
   catch(e) {
-    console.log('Error: ' + e)
+    console.log('Error while evaluating: ' + e)
   }
 }
 const isPassed = (res, expRes) => JSON.stringify(res) === JSON.stringify(expRes); //for functions with non-primitive results
@@ -138,8 +138,8 @@ const removeSymbFromEnd = (textFn, symb) => {
 }
 const prepareTextFunction = (textFn, list) => {
   let copy = textFn;
-  copy = timeLimitWrap(copy);
   copy = restrictedChange(copy, list);
+  copy = timeLimitWrap(copy);
   copy = removeSymbFromEnd(copy, ';');
   copy.trim();
   copy = `(${copy})`;
