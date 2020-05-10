@@ -205,7 +205,7 @@ app.use(bot.webhookCallback(`/bot${TOKEN}`));
 functions.identify(LABS);
 functions.ownDecisioned(LABS);
 functions.getManual(fs, './manual.txt', COMMANDS);
-functions.addComands(COMMANDS, bot);
+functions.addCommands(COMMANDS, bot);
 
 bot.on('callback_query', ctx => {
   const chatID = ctx.update.callback_query.message.chat.id;
