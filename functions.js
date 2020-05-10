@@ -136,9 +136,9 @@ const removeSymbFromEnd = (textFn, symb) => {
 }
 const prepareTextFunction = (textFn, list) => {
   let copy = textFn;
-  copy = timeLimitWrap(text);
-  copy = restrictedChange(text, list);
-  copy = removeSymbFromEnd(text, ';');
+  copy = timeLimitWrap(textFn);
+  copy = restrictedChange(textFn, list);
+  copy = removeSymbFromEnd(textFn, ';');
   copy.trim();
   copy = `(${copy})`;
   return copy;
