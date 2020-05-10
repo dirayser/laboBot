@@ -1,5 +1,6 @@
 'use strict';
 
+const STATUSES = {};
 const LABS = [
   {
     category: 'Функции и методы',
@@ -153,24 +154,7 @@ const LABS = [
     ownDecision: true
   },
 ];
-
-const express = require('express');
-const Telegraf = require('telegraf');
-const TOKEN = '944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI';
-const PORT = process.env.PORT || 3000;
-const bot = new Telegraf(TOKEN);
-const app = express();
-const URL = 'https://labobot.herokuapp.com';
-
-bot.telegram.setWebhook(`${URL}/bot${TOKEN}`);
-app.use(bot.webhookCallback(`/bot${TOKEN}`));
-
-const readline = require('readline');
-const fs = require('fs');
-
-
-const STATUSES = {};
-const commands = {
+const COMMANDS = {
   '/start' : ctx => ctx.reply('Привет, я здесь чтобы давать тебе задания и автоматически их проверять!'),
   '/categories' : ctx => {
     const categories = getCategories(LABS);
@@ -187,143 +171,62 @@ const commands = {
     STATUSES[ctx.message.chat.id] = 0;
   }
 }
-function getManual(file) {
-  const manual = fs.readFileSync('./manual.txt', 'utf8');
-  commands['/manual'] = ctx => { ctx.reply(manual) }
-}
-identify(LABS);
-ownDecisioned(LABS);
-getManual('./manual.txt');
-
-
-function getCategories(labs) {
-  const categories = [];
-  labs.forEach(lab => {
-    if(!categories.includes(lab.category)) categories.push(lab.category);
-  })
-  return categories;
-}
-function identify(labs) {
-  labs.forEach((lab, i) => lab.id = i + 1)
-}
-function ownDecisioned(labs) {
-  labs.forEach((lab, i) => 
-  {
-    if(lab.ownDecision) lab.labName += '🕵🏻‍♂️';
-  })
+const restrictedChangeList = {
+  'console' : 'consolе',
+  'require' : 'requirе',
+  'bot' : 'bоt',
+  'sendMessage' : 'SеndMessage',
+  'TOKEN' : 'T0KEN',
+  'reply' : 'replу',
+  'Error' : 'Errоr',
+  'throw' : 'thrоw',
+  'exec' : 'exес',
+  'process' : 'processs',
+  'eval' : 'evаl',
+  'Promise' : 'Promisе',
+  'app' : 'apр',
 }
 
-const addComands = () => { for(const key in commands) bot.command(key, commands[key]) };
-const findByCategory = (category, labs) => labs.filter(lab => lab.category === category);
-const findByID = (ID, labs) => {
-  for(const lab of labs){
-    if(lab.id == ID) {
-      return lab;
-    }
-  }
-}
-const testResultToText = result => {
-  let text = '';
-  let testsPassed = 0;
-  result.forEach((test, i) => {
-    text += (`Test ${i + 1}:\n\n`);
-    if(test.error) {
-      text += test.result + ' ⚠︎♨️\n\n\n';
-      console.log(test.result)
-    }
-    else{
-      text += (`Expected result: ${JSON.stringify(test.expectedResult)}\n`);
-      text += (`Test is `);
-      text += (`${test.passed ? 'passed ✅' : 'not passed ❌'}\n\n\n`);
-      if(test.passed) testsPassed++;
-    }
-  })
-  text += result.length === testsPassed ? 'Good job!' : 'Try again!';
-  return text;
-}
-async function getFunction(text) {
-  text.trim();
-  text = `(${text})`;
-  text = timeLimitWrap(text);
-  while(text[text.length - 1] === ';') {
-    text = text.substring(0, text.length - 1);
-  }
-  let __fn = function(){};
-  try {
-    __fn = await eval(`(${text})`);
-    return __fn;
-  }
-  catch(e) {
-    console.log('Error: ' + e)
-  }
-}
+const fs = require('fs');
+const express = require('express');
+const Telegraf = require('telegraf');
+const functions = require('./functions');
 
-const isPassed = (res, expRes) => JSON.stringify(res) === JSON.stringify(expRes); //for functions with non-primitive results
-const fullCopy = x => JSON.parse(JSON.stringify(x));
+const TOKEN = '944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI';
+const PORT = process.env.PORT || 3000;
+const URL = 'https://labobot.herokuapp.com';
 
-function checkFunction(fn, test) {
-  const results = [];
-  test.arguments.forEach((args, testIndex) => {
-    try {
-      const result = fn(...args);
-      results.push({
-      result: result,
-      expectedResult: fullCopy(test.results[testIndex]),
-      passed: isPassed(result, test.results[testIndex])
-    });
-  }
-  catch(e) {
-    results.push({
-      result: e,
-      error: true
-    })
-  }
-  });
-  return results;
-}
+const bot = new Telegraf(TOKEN);
+const app = express();
 
-addComands();
+bot.telegram.setWebhook(`${URL}/bot${TOKEN}`);
+app.use(bot.webhookCallback(`/bot${TOKEN}`));
+
+functions.identify(LABS);
+functions.ownDecisioned(LABS);
+functions.getManual(fs, './manual.txt', COMMANDS);
+functions.addComands(COMMANDS, bot);
 
 bot.on('callback_query', ctx => {
   const chatID = ctx.update.callback_query.message.chat.id;
   const messageID = ctx.update.callback_query.message.message_id;
-  const urername =  ctx.update.callback_query.from.username;
+  const username =  ctx.update.callback_query.from.username;
   const data = ctx.update.callback_query.data;
-  const splitedData = data.split(':');
-  const queryFor = splitedData[0];
-  const queryData = splitedData[1];
-  if(queryFor === 'category') {
-    const labs = findByCategory(queryData, LABS);
-    const inline_keyboard = [];
-    labs.forEach(lab => inline_keyboard.push([{text: lab.labName, callback_data: (`lab:${lab.id}`).toString()}]));
-    const keyboard = {
-      reply_markup: JSON.stringify({
-        inline_keyboard: inline_keyboard
-      })
-    };
-    bot.telegram.editMessageText(chatID, messageID, undefined, 'Выбери задание:', keyboard);
-  }
-  else if(queryFor === 'lab') {
-    bot.telegram.sendMessage(372158505, urername);
-    const labID = +queryData;
-    const lab = findByID(labID, LABS);
-    if(!lab.ownDecision) STATUSES[chatID] = labID;
-    ctx.reply(`${lab.labName}:\n\n${lab.description}`);
-  }
+  const {queryFor, queryData} = functions.getData(data);
+  if(queryFor === 'category') functions.queryForCategory(queryData, LABS, chatID, messageID, bot);
+  else if(queryFor === 'lab') functions.queryForLab(ctx, queryData, LABS, chatID, username, bot);
 });
 
 bot.on('text', async ctx => {
   const text = ctx.message.text;
   const chatID = ctx.message.chat.id;
-  if(STATUSES[chatID]) {
-    const fn =  await getFunction(text);
-    const lab = findByID(STATUSES[chatID], LABS);
-    const testResult = checkFunction(fn, lab);
-    const answer = testResultToText(testResult);
-    let done = true;
-    testResult.forEach(res => {
-      if(!res.passed) done = false;
-    });
+  const isWaitingForLab = STATUSES[chatID]
+  if(isWaitingForLab) {
+    const fn =  await functions.getFunction(text, restrictedChangeList);
+    const lab = functions.findByID(STATUSES[chatID], LABS);
+    const testResult = functions.checkFunction(fn, lab);
+    const answer = functions.testResultToText(testResult);
+    let done = functions.isTestPassed(testResult);
     if(done) STATUSES[chatID] = 0;
     ctx.reply(answer);
   }
@@ -333,27 +236,3 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-const timeLimitWrap = function(codeStr) {
-  let newF =  codeStr.replace(/for *\(.*\{|while *\(.*\{|do *\{/, function(loopHead) {
-    return `const start = Date.now();${loopHead}`
-  })
-  newF = newF.replace(/for *\(.*\{|while *\(.*\{|do *\{/g, function(loopHead) {
-    return `${loopHead}if(Date.now() - start > 1500) throw new Error('Time limit exceed');\n`
-  })
-
-  newF = newF.replace(/console/g, 'consolе');
-  newF = newF.replace(/require/g, 'requirе');
-  newF = newF.replace(/bot/g, 'bоt');
-  newF = newF.replace(/sendMessage/g, 'youWillNotSendMessage');
-  newF = newF.replace(/TOKEN/g, 'youWillNotGetToken');
-  newF = newF.replace(/reply/g, 'replyToWho');
-  newF = newF.replace(/Error/g, 'Errоr');
-  newF = newF.replace(/throw/g, 'thrоw');
-  newF = newF.replace(/exec/g, 'exес');
-  newF = newF.replace(/process/g, 'processs');
-  newF = newF.replace(/eval/g, 'evаl');
-  newF = newF.replace(/Promise/g, 'Promisе');
-  newF = newF.replace(/app/g, 'apр');
-
-  return newF;
-}
