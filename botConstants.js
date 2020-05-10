@@ -162,7 +162,7 @@ const restrictedChangeList = {
   'Error' : 'Errоr',
   'throw' : 'thrоw',
   'exec' : 'exес',
-  'process' : 'processs',
+  'process' : 'prоcess',
   'eval' : 'evаl',
   'Promise' : 'Promisе',
   'app' : 'apр',
