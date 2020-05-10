@@ -27,11 +27,11 @@ const COMMANDS = {
 const LABS = constants.LABS;
 const restrictedChangeList = constants.restrictedChangeList;
 
-const bot = new Telegraf(process.env.TOKEN);
-bot.telegram.setWebhook(`${process.env.BOT_URL}/bot${process.env.TOKEN}`);
+const bot = new Telegraf('944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI');
+bot.telegram.setWebhook(`${'https://labobot.herokuapp.com'}/bot${'944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI'}`);
 
 const app = express();
-app.use(bot.webhookCallback(`/bot${process.env.TOKEN}`));
+app.use(bot.webhookCallback(`/bot${'944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI'}`));
 
 functions.identify(LABS);
 functions.ownDecisioned(LABS);
