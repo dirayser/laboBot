@@ -214,7 +214,7 @@ bot.on('callback_query', ctx => {
   const data = ctx.update.callback_query.data;
   const {queryFor, queryData} = functions.getData(data);
   if(queryFor === 'category') functions.queryForCategory(queryData, LABS, chatID, messageID, bot);
-  else if(queryFor === 'lab') functions.queryForLab(ctx, queryData, LABS, chatID, username, bot);
+  else if(queryFor === 'lab') functions.queryForLab(ctx, queryData, LABS, chatID, username, bot, STATUSES);
 });
 
 bot.on('text', async ctx => {

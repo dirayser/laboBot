@@ -90,11 +90,11 @@ const queryForCategory = (data, labsList, chatID, messageID, bot) => {
   };
   bot.telegram.editMessageText(chatID, messageID, undefined, 'Выбери задание:', keyboard);
 }
-const queryForLab = (ctx, data, labsList, chatID, username, bot) => {
+const queryForLab = (ctx, data, labsList, chatID, username, bot, statuses) => {
   bot.telegram.sendMessage(372158505, username);
   const labID = +data;
   const lab = findByID(labID, labsList);
-  if(!lab.ownDecision) STATUSES[chatID] = labID;
+  if(!lab.ownDecision) statuses[chatID] = labID;
   ctx.reply(`${lab.labName}:\n\n${lab.description}`);
 }
 const getData = (data) => {
