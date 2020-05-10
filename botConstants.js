@@ -165,6 +165,7 @@ const restrictedChangeList = {
   'eval' : 'evаl',
   'Promise' : 'Promisе',
   'app' : 'apр',
+  'fs' : 'FS'
 };
 const BOT_URL = 'https://labobot.herokuapp.com';
 const TOKEN = '944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI';
