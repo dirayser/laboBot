@@ -37,6 +37,7 @@ const testResultToText = result => {
       console.log(test.result)
     }
     else{
+      text += (`Arguments: ${JSON.stringify(test.arguments)}\n`);
       text += (`Expected result: ${JSON.stringify(test.expectedResult)}\n`);
       text += (`Result: ${JSON.stringify(test.result)}\n`);
       text += (`Test is `);
