@@ -68,6 +68,7 @@ function checkFunction(fn, test) {
     try {
       const result = fn(...fullCopy(args));
       results.push({
+      arguments : args,
       result: result,
       expectedResult: fullCopy(test.results[testIndex]),
       passed: isPassed(result, test.results[testIndex])
