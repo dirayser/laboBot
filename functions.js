@@ -38,7 +38,7 @@ const testResultToText = result => {
     }
     else{
       text += (`Arguments: `);
-      test.arguments.forEach((x, i) => text += (`${JSON.stringify(x)}${i === test.arguments.length - 1 ? ', ' : ''}`));
+      test.arguments.forEach((x, i) => text += (`${JSON.stringify(x)}${i === test.arguments.length - 1 ? '\n\n' : ', '}`));
       text += (`Expected result: ${JSON.stringify(test.expectedResult)}\n\n`);
       text += (`Result: ${JSON.stringify(test.result)}\n\n`);
       text += (`Test is `);
