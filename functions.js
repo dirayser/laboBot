@@ -65,7 +65,7 @@ function checkFunction(fn, test) {
   const results = [];
   test.arguments.forEach((args, testIndex) => {
     try {
-      const result = fn(...args);
+      const result = fn(...fullCopy(args));
       results.push({
       result: result,
       expectedResult: fullCopy(test.results[testIndex]),
