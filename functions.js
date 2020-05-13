@@ -179,7 +179,7 @@ const onCallbackQuery = (ctx, labs, statuses, bot) => {
   if(queryFor === 'category') queryForCategory(queryData, labs, chatID, messageID, bot);
   else if(queryFor === 'lab') queryForLab(ctx, queryData, labs, chatID, username, bot, statuses);
 }
-const onText = (ctx, statuses, labs, restrictedList) => {
+const onText = async (ctx, statuses, labs, restrictedList) => {
   const text = ctx.message.text;
   const chatID = ctx.message.chat.id;
   const isWaitingForLab = statuses[chatID]
