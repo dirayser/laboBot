@@ -13,9 +13,12 @@ function identify(labs) {
   labs.forEach((lab, i) => lab.id = i + 1)
 }
 function ownDecisioned(labs) {
-  labs.forEach((lab, i) => 
+  labs.forEach(lab => 
   {
     if(lab.ownDecision) lab.labName += '🕵🏻‍♂️';
+    else{
+      lab.description += '\n\nПрисылай код:'
+    }
   })
 }
 const addCommands = (commands, bot) => { for(const key in commands) bot.command(key, commands[key]) };
@@ -50,9 +53,9 @@ const testResultToText = result => {
   return text;
 }
 async function getFunction(textFn, list) {
-  textFn = prepareTextFunction(textFn, list);
-  let __fn = function(){};
   try {
+    textFn = prepareTextFunction(textFn, list);
+    let __fn = function(){};
     __fn = await eval(textFn);
     return __fn;
   }
