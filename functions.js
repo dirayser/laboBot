@@ -50,9 +50,9 @@ const testResultToText = result => {
   return text;
 }
 async function getFunction(textFn, list) {
+  textFn = prepareTextFunction(textFn, list);
+  let __fn = function(){};
   try {
-    textFn = prepareTextFunction(textFn, list);
-    let __fn = function(){};
     __fn = await eval(textFn);
     return __fn;
   }
