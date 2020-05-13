@@ -39,28 +39,11 @@ FUNCTIONS.getManual(fs, './manual.txt', COMMANDS);
 FUNCTIONS.addCommands(COMMANDS, bot);
 
 bot.on('callback_query', ctx => {
-  const chatID = ctx.update.callback_query.message.chat.id;
-  const messageID = ctx.update.callback_query.message.message_id;
-  const username =  ctx.update.callback_query.from.username;
-  const data = ctx.update.callback_query.data;
-  const {queryFor, queryData} = FUNCTIONS.getData(data);
-  if(queryFor === 'category') FUNCTIONS.queryForCategory(queryData, LABS, chatID, messageID, bot);
-  else if(queryFor === 'lab') FUNCTIONS.queryForLab(ctx, queryData, LABS, chatID, username, bot, STATUSES);
+  FUNCTIONS.onCallbackQuery(ctx, LABS, STATUSES, bot);
 });
 
 bot.on('text', async ctx => {
-  const text = ctx.message.text;
-  const chatID = ctx.message.chat.id;
-  const isWaitingForLab = STATUSES[chatID]
-  if(isWaitingForLab) {
-    const fn =  await FUNCTIONS.getFunction(text, restrictedChangeList);
-    const lab = FUNCTIONS.findByID(STATUSES[chatID], LABS);
-    const testResult = FUNCTIONS.checkFunction(fn, lab);
-    const answer = FUNCTIONS.testResultToText(testResult);
-    let done = FUNCTIONS.isTestPassed(testResult);
-    if(done) STATUSES[chatID] = 0;
-    ctx.reply(answer);
-  }
+  FUNCTIONS.onText(ctx, STATUSES, LABS, restrictedChangeList)
 })
 
 app.listen(process.env.PORT, () => {

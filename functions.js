@@ -50,10 +50,9 @@ const testResultToText = result => {
   return text;
 }
 async function getFunction(textFn, list) {
-  textFn = prepareTextFunction(textFn, list);
-  console.log(textFn);
-  let __fn = function(){};
   try {
+    textFn = prepareTextFunction(textFn, list);
+    let __fn = function(){};
     __fn = await eval(textFn);
     return __fn;
   }
@@ -141,12 +140,58 @@ const removeSymbFromEnd = (textFn, symb) => {
 }
 const prepareTextFunction = (textFn, list) => {
   let copy = textFn;
+  if(!checkRightLoops(textFn)) throw new Error('Uncorrect loop form.')
   copy = restrictedChange(copy, list);
   copy = timeLimitWrap(copy);
   copy = removeSymbFromEnd(copy, ';');
   copy.trim();
   copy = `(${copy})`;
   return copy;
+}
+const checkRightLoops = textFn => {
+  let left = 0;
+  let right = 0;
+  let normal = true;
+  for(let i = 0; i < textFn.length; i++) {
+    if(textFn.substr(i, 3) === 'for' || textFn.substr(i, 5) === 'while') {
+      for(; i < textFn.length; i++) {
+        if(textFn[i] === '(') left++;
+        else if(textFn[i] === ')') right++;
+        if(left === right && left !== 0) break;
+      }
+      i++;
+      for(; i < text.length; i++) {
+        if(textFn[i] === '{') break;
+        if(textFn[i] !== '{' && textFn[i] !== ' ' && textFn[i] !== '\n') {
+          normal = false;
+        }
+      }
+    }
+  }
+  return normal;
+}
+const onCallbackQuery = (ctx, labs, statuses, bot) => {
+  const chatID = ctx.update.callback_query.message.chat.id;
+  const messageID = ctx.update.callback_query.message.message_id;
+  const username =  ctx.update.callback_query.from.username;
+  const data = ctx.update.callback_query.data;
+  const {queryFor, queryData} = getData(data);
+  if(queryFor === 'category') queryForCategory(queryData, labs, chatID, messageID, bot);
+  else if(queryFor === 'lab') queryForLab(ctx, queryData, labs, chatID, username, bot, statuses);
+}
+const onText = (ctx, statuses, labs, restrictedList) => {
+  const text = ctx.message.text;
+  const chatID = ctx.message.chat.id;
+  const isWaitingForLab = statuses[chatID]
+  if(isWaitingForLab) {
+    const fn =  await getFunction(text, restrictedList);
+    const lab = findByID(statuses[chatID], labs);
+    const testResult = checkFunction(fn, lab);
+    const answer = testResultToText(testResult);
+    let done = isTestPassed(testResult);
+    if(done) statuses[chatID] = 0;
+    ctx.reply(answer);
+  }
 }
 
 module.exports = {
@@ -155,19 +200,6 @@ module.exports = {
   identify,
   ownDecisioned,
   addCommands,
-  findByCategory,
-  findByID,
-  testResultToText,
-  getFunction,
-  isPassed,
-  fullCopy,
-  checkFunction,
-  queryForCategory,
-  queryForLab,
-  getData,
-  isTestPassed,
-  timeLimitWrap,
-  restrictedChange,
-  removeSymbFromEnd,
-  prepareTextFunction
+  onCallbackQuery,
+  onText
 }
