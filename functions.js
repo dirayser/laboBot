@@ -160,7 +160,7 @@ const checkRightLoops = textFn => {
         if(left === right && left !== 0) break;
       }
       i++;
-      for(; i < text.length; i++) {
+      for(; i < textFn.length; i++) {
         if(textFn[i] === '{') break;
         if(textFn[i] !== '{' && textFn[i] !== ' ' && textFn[i] !== '\n') {
           normal = false;
