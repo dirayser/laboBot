@@ -1,6 +1,6 @@
 function getManual(fs, file, commands) { //gets manual from file
   const manual = fs.readFileSync(file, 'utf8');
-  commands['/manual'] = ctx => { ctx.reply(manual); };
+  commands['/help'] = ctx => { ctx.reply(manual); };
 }
 
 function getCategories(labs) { // gets categories from labs
