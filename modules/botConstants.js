@@ -175,7 +175,7 @@ const restrictedChangeList = {
 };
 
 const BOT_URL = process.env.BOT_URL;
-const TOKEN = process.env.TOKEN;
+const TOKEN = process.env.BOT_TOKEN;
 const MANUAL = 'manual.txt'
 
 module.exports = {
