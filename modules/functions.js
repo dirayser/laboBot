@@ -188,7 +188,6 @@ const checkRightLoops = textFn => { // checks if loops are correct
 const onCallbackQuery = (ctx, labs, statuses, bot) => { // starts if any button is pressed
   const chatID = ctx.update.callback_query.message.chat.id;
   const messageID = ctx.update.callback_query.message.message_id;
-  const username =  ctx.update.callback_query.from.username;
   const data = ctx.update.callback_query.data;
   const { queryFor, queryData } = getData(data);
   if (queryFor === 'category') queryForCategory(queryData, labs, chatID, messageID, bot);
