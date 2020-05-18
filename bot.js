@@ -33,6 +33,7 @@ const COMMANDS = {
   },
   '/stop_trying' : ctx => {
     STATUSES[ctx.message.chat.id] = 0;
+    ctx.reply('Ну, можно код больше не кидать.')
   }
 }
 const {LABS, restrictedChangeList, BOT_URL, TOKEN, MANUAL}  = CONSTANTS;
