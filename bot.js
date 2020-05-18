@@ -9,7 +9,17 @@ const CONSTANTS = require('./botConstants');
 
 const STATUSES = {};
 const COMMANDS = {
-  '/start' : ctx => ctx.reply('Привет, я здесь чтобы давать тебе задания и автоматически их проверять!'),
+  '/start' : ctx => {
+    const categories = FUNCTIONS.getCategories(LABS);
+    const inline_keyboard = [];
+    categories.forEach(cat => inline_keyboard.push([{text: cat, callback_data: (`category:${cat}`).toString()}]));
+    const keyboard = {
+      reply_markup: JSON.stringify({
+        inline_keyboard: inline_keyboard
+      })
+    };
+    ctx.reply('Привет, я здесь чтобы давать тебе задания и автоматически их проверять!\nВыбери категорию заданий:', keyboard)
+  },
   '/tasks' : ctx => {
     const categories = FUNCTIONS.getCategories(LABS);
     const inline_keyboard = [];
