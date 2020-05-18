@@ -4,8 +4,8 @@ const fs = require('fs');
 const express = require('express');
 const Telegraf = require('telegraf');
 
-const FUNCTIONS = require('./functions');
-const CONSTANTS = require('./botConstants');
+const FUNCTIONS = require('./modules/functions');
+const CONSTANTS = require('./modules/botConstants');
 
 const STATUSES = {};
 const { LABS, restrictedChangeList, BOT_URL, TOKEN, MANUAL }  = CONSTANTS;

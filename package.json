@@ -1,14 +1,15 @@
 {
   "dependencies": {
     "express": "^4.17.1",
-    "heroku": "^7.40.0",
     "telegraf": "^3.32.0"
   },
   "name": "labobot",
   "version": "1.0.0",
   "description": "Bot for checking labs.",
   "main": "bot.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "heroku": "^7.40.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

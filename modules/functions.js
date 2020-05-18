@@ -37,10 +37,9 @@ const findByID = (ID, labs) => { // finds lab by id
 
 const prepareTextFunction = (textFn, list) => { // prepares users code
   let copy = textFn;
-  if (!checkRightLoops(textFn)) throw new Error('Uncorrect loop form.');
-  copy = restrictedChange(copy, list);
-  copy = timeLimitWrap(copy);
-  copy = removeSymbFromEnd(copy, ';');
+  if (!checkRightLoops(copy)) throw new Error('Uncorrect loop form.');
+  const changesToDo = [restrictedChange.bind(null, list), timeLimitWrap, removeSymbFromEnd.bind(null, ';')];
+  copy = changesToDo.reduce((fn, val) => fn(val), copy);
   copy.trim();
   copy = `(${copy})`;
   return copy;
@@ -146,7 +145,7 @@ const timeLimitWrap = function(codeStr) { // unables infinite loops by adding co
   return newF;
 };
 
-const restrictedChange = (textFn, list) => { // changes restricted keywords
+const restrictedChange = (list, textFn) => { // changes restricted keywords
   let copy = fullCopy(textFn);
   for (const restricted in list) {
     copy = copy.replace(new RegExp(restricted, 'g'), list[restricted]);
@@ -154,7 +153,7 @@ const restrictedChange = (textFn, list) => { // changes restricted keywords
   return copy;
 };
 
-const removeSymbFromEnd = (textFn, symb) => { // removes symbols from string ending
+const removeSymbFromEnd = (symb, textFn) => { // removes symbols from string ending
   let copy = fullCopy(textFn);
   while (copy[copy.length - 1] === symb) {
     copy = copy.substring(0, copy.length - 1);
