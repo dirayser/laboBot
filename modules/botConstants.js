@@ -174,8 +174,8 @@ const restrictedChangeList = {
   'STATUSES' : 'STАTUSES'
 };
 
-const BOT_URL = 'https://labobot.herokuapp.com';
-const TOKEN = '944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI';
+const BOT_URL = process.env.BOT_URL;
+const TOKEN = process.env.TOKEN;
 const MANUAL = 'manual.txt'
 
 module.exports = {
