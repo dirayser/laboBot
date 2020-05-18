@@ -38,11 +38,7 @@ const findByID = (ID, labs) => { // finds lab by id
 const prepareTextFunction = (textFn, list) => { // prepares users code
   let copy = textFn;
   if (!checkRightLoops(copy)) throw new Error('Uncorrect loop form.');
-  const changesToDo = [restrictedChange.bind(null, list), timeLimitWrap, removeSymbFromEnd.bind(null, ';')];
-  copy = changesToDo.reduce((fn, val) => fn(val), copy);
-  console.log(copy)
-  copy.trim();
-  copy = `(${copy})`;
+  copy = `(${removeSymbFromEnd(';', timeLimitWrap(restrictedChange(list, copy))).trim()})`;
   return copy;
 };
 
