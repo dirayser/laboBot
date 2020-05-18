@@ -23,7 +23,11 @@ function ownDecisioned(labs) { //checks if lab has own code decision
   });
 }
 
-const addCommands = (commands, bot) => { for (const key in commands) bot.command(key, commands[key]); }; // adds commands to bot
+const addCommands = (commands, bot) => { 
+  for (const key in commands) {
+    bot.command(key, commands[key]); 
+  }
+}; // adds commands to bot
 
 const findByCategory = (category, labs) => labs.filter(lab => lab.category === category); // finds labs by category
 
@@ -113,7 +117,7 @@ const queryForCategory = (data, labsList, chatID, messageID, bot) => { // starts
   bot.telegram.editMessageText(chatID, messageID, undefined, 'Выбери задание:', keyboard);
 };
 
-const queryForLab = (ctx, data, labsList, chatID, username, bot, statuses) => { // starts if lab is choosen
+const queryForLab = (ctx, data, labsList, chatID, statuses) => { // starts if lab is choosen
   const labID = +data;
   const lab = findByID(labID, labsList);
   if (!lab.ownDecision) statuses[chatID] = labID;
@@ -188,7 +192,7 @@ const onCallbackQuery = (ctx, labs, statuses, bot) => { // starts if any button 
   const data = ctx.update.callback_query.data;
   const { queryFor, queryData } = getData(data);
   if (queryFor === 'category') queryForCategory(queryData, labs, chatID, messageID, bot);
-  else if (queryFor === 'lab') queryForLab(ctx, queryData, labs, chatID, username, bot, statuses);
+  else if (queryFor === 'lab') queryForLab(ctx, queryData, labs, chatID, statuses);
 };
 
 const onText = async (ctx, statuses, labs, restrictedList) => { // starts if textmessage received
