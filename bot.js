@@ -48,17 +48,11 @@ const COMMANDS = {
   },
 };
 
-
-const bot = new Telegraf(TOKEN, {
-  webHook: {
-    port: process.env.PORT
-  }
-});
-//const __app = express();
+const bot = new Telegraf(TOKEN);
+const __app = express();
 
 bot.telegram.setWebhook(`${BOT_URL}/bot${TOKEN}`);
-bot.startWebhook()
-//__app.use(bot.webhookCallback(`/bot${TOKEN}`));
+__app.use(bot.webhookCallback(`/bot${TOKEN}`));
 
 FUNCTIONS.identify(LABS);
 FUNCTIONS.ownDecisioned(LABS);
@@ -73,8 +67,6 @@ bot.on('text', async ctx => {
   FUNCTIONS.onText(ctx, STATUSES, LABS, restrictedChangeList);
 });
 
-/*__app.listen(process.env.PORT, () => {
+__app.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`);
 });
-
-*/
