@@ -164,8 +164,7 @@ const restrictedChangeList = {
   'exec' : 'exес',
   'process' : 'prоcess',
   'eval' : 'evаl',
-  'Promise' : 'Promisе',
-  'app' : 'apр',
+  '__app' : '__apр',
   'fs' : 'FS',
   'LABS' : 'L4BS',
   'restrictedChangeList': 'restrictedChangеList',
@@ -174,12 +173,15 @@ const restrictedChangeList = {
   'FUNCTIONS' : 'FUNCTI0NS',
   'STATUSES' : 'STАTUSES'
 };
+
 const BOT_URL = 'https://labobot.herokuapp.com';
 const TOKEN = '944418146:AAHReRYdJrKG0Hl9xExuk7DnvyxtcdTcjlI';
+const MANUAL = 'manual.txt'
 
 module.exports = {
   LABS,
   restrictedChangeList,
   BOT_URL,
-  TOKEN
+  TOKEN,
+  MANUAL
 }

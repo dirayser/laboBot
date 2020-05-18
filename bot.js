@@ -35,17 +35,17 @@ const COMMANDS = {
     STATUSES[ctx.message.chat.id] = 0;
   }
 }
-const {LABS, restrictedChangeList, BOT_URL, TOKEN}  = CONSTANTS;
+const {LABS, restrictedChangeList, BOT_URL, TOKEN, MANUAL}  = CONSTANTS;
 
 const bot = new Telegraf(TOKEN);
-bot.telegram.setWebhook(`${BOT_URL}/bot${TOKEN}`);
+const __app = express();
 
-const app = express();
-app.use(bot.webhookCallback(`/bot${TOKEN}`));
+bot.telegram.setWebhook(`${BOT_URL}/bot${TOKEN}`);
+__app.use(bot.webhookCallback(`/bot${TOKEN}`));
 
 FUNCTIONS.identify(LABS);
 FUNCTIONS.ownDecisioned(LABS);
-FUNCTIONS.getManual(fs, './manual.txt', COMMANDS);
+FUNCTIONS.getManual(fs, MANUAL, COMMANDS);
 FUNCTIONS.addCommands(COMMANDS, bot);
 
 bot.on('callback_query', ctx => {
@@ -56,7 +56,7 @@ bot.on('text', async ctx => {
   FUNCTIONS.onText(ctx, STATUSES, LABS, restrictedChangeList)
 })
 
-app.listen(process.env.PORT, () => {
+__app.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`);
 });
 
