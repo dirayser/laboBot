@@ -3,5 +3,30 @@
     "express": "^4.17.1",
     "heroku": "^7.40.0",
     "telegraf": "^3.32.0"
-  }
+  },
+  "name": "labobot",
+  "version": "1.0.0",
+  "description": "Bot for checking labs.",
+  "main": "bot.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dirayser/laboBot.git"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "telegram",
+    "bot",
+    "Telegraf"
+  ],
+  "author": "Dmytro Dmytriiev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dirayser/laboBot/issues"
+  },
+  "homepage": "https://github.com/dirayser/laboBot#readme"
 }
