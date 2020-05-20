@@ -4,9 +4,6 @@ https://t.me/progTasks_bot
 
 ## Для чего бот?
 Этот бот предназначен для автоматической проверки лабораторных заданий.
- 
-## Screenshots
-Include logo/demo screenshot etc.
 
 ## API/Фрэймворки
 - [Telegraf](https://telegraf.js.org/#/)
@@ -33,4 +30,4 @@ Include logo/demo screenshot etc.
 В случае прекращения выполнения задания желательно вызвать /stop_trying
 
 ## License
-ISC © [Dmytro Dmytriiev]()
+ISC © [Dmytro Dmytriiev](https://github.com/dirayser)
