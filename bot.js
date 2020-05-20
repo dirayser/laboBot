@@ -51,8 +51,8 @@ const COMMANDS = {
 const bot = new Telegraf(TOKEN);
 //const __app = express();
 //bot.telegram.setWebhook('https://server.tld:8443/secret-path'
-bot.telegram.setWebhook(`${BOT_URL}:8443/bot${TOKEN}`);
-bot.startWebhook(`/bot${TOKEN}`, null, 5000)
+bot.telegram.setWebhook(`${BOT_URL}/bot${TOKEN}`);
+bot.startWebhook(`/bot${TOKEN}`, null, 8443)
 //__app.use(bot.webhookCallback(`/bot${TOKEN}`));
 
 FUNCTIONS.identify(LABS);
