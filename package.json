@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "express": "^4.17.1",
-    "telegraf": "^3.32.0"
+    "telegraf": "^3.38.0"
   },
   "name": "labobot",
   "version": "1.0.0",
