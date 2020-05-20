@@ -49,11 +49,9 @@ const COMMANDS = {
 };
 
 const bot = new Telegraf(TOKEN);
-//const __app = express();
-//bot.telegram.setWebhook('https://server.tld:8443/secret-path'
+
 bot.telegram.setWebhook(`${BOT_URL}/bot${TOKEN}`);
 bot.startWebhook(`/bot${TOKEN}`, null, process.env.PORT)
-//__app.use(bot.webhookCallback(`/bot${TOKEN}`));
 
 FUNCTIONS.identify(LABS);
 FUNCTIONS.ownDecisioned(LABS);
@@ -67,7 +65,3 @@ bot.on('callback_query', ctx => {
 bot.on('text', async ctx => {
   FUNCTIONS.onText(ctx, STATUSES, LABS, restrictedChangeList);
 });
-
-/*__app.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
-});*/
