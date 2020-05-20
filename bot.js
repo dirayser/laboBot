@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const express = require('express');
-const Telegraf = require('telegraf');
+const { Telegraf } = require('telegraf');
 
 const FUNCTIONS = require('./modules/functions');
 const CONSTANTS = require('./modules/botConstants');
@@ -49,10 +49,11 @@ const COMMANDS = {
 };
 
 const bot = new Telegraf(TOKEN);
-const __app = express();
-
-bot.telegram.setWebhook(`${BOT_URL}/bot${TOKEN}`);
-__app.use(bot.webhookCallback(`/bot${TOKEN}`));
+//const __app = express();
+//bot.telegram.setWebhook('https://server.tld:8443/secret-path'
+bot.telegram.setWebhook(`${BOT_URL}:${process.env.PORT}/bot${TOKEN}`);
+bot.startWebhook(`/bot${TOKEN}`, null, process.env.PORT)
+//__app.use(bot.webhookCallback(`/bot${TOKEN}`));
 
 FUNCTIONS.identify(LABS);
 FUNCTIONS.ownDecisioned(LABS);
@@ -67,6 +68,6 @@ bot.on('text', async ctx => {
   FUNCTIONS.onText(ctx, STATUSES, LABS, restrictedChangeList);
 });
 
-__app.listen(process.env.PORT, () => {
+/*__app.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`);
-});
+});*/
