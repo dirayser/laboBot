@@ -6,6 +6,12 @@
       "rules": {
         "camelcase": "off"
       }
+    },
+    {
+      "files": ["./modules/functions.js"],
+      "rules": {
+        "max-len": ["error", 160]
+      }
     }
   ]
 }
