@@ -23,7 +23,9 @@ const COMMANDS = {
         inline_keyboard,
       }),
     };
-    ctx.reply(`Привет, я здесь чтобы давать тебе задания и автоматически их проверять!\nВыбери категорию заданий:`, keyboard);
+    let answer = 'Привет, я здесь чтобы давать тебе задания';
+    answer +=  ' и автоматически их проверять!\nВыбери категорию заданий:';
+    ctx.reply(answer, keyboard);
   },
   '/tasks': ctx => {
     const categories = FUNCTIONS.getCategories(LABS);
@@ -50,7 +52,7 @@ const COMMANDS = {
 const bot = new Telegraf(TOKEN);
 
 bot.telegram.setWebhook(`${BOT_URL}/bot${TOKEN}`);
-bot.startWebhook(`/bot${TOKEN}`, null, process.env.PORT)
+bot.startWebhook(`/bot${TOKEN}`, null, process.env.PORT);
 
 FUNCTIONS.identify(LABS);
 FUNCTIONS.ownDecisioned(LABS);
