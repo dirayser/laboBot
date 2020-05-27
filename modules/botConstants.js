@@ -1,3 +1,5 @@
+'use strict';
+
 const LABS = [
   {
     category: 'Функции и методы',
