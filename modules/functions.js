@@ -1,3 +1,7 @@
+'use strict';
+
+const fullCopy = x => JSON.parse(JSON.stringify(x)); // creates objects copy
+
 function getManual(fs, file, commands) { //gets manual from file
   const manual = fs.readFileSync(file, 'utf8');
   commands['/help'] = ctx => { ctx.reply(manual); };
@@ -12,7 +16,9 @@ function getCategories(labs) { // gets categories from labs
 }
 
 function identify(labs) { // gives ids to labs
-  labs.forEach((lab, i) => lab.id = i + 1);
+  labs.forEach((lab, i) => {
+    lab.id = i + 1;
+  });
 }
 
 function ownDecisioned(labs) { //checks if lab has own code decision
@@ -23,9 +29,9 @@ function ownDecisioned(labs) { //checks if lab has own code decision
   });
 }
 
-const addCommands = (commands, bot) => { 
+const addCommands = (commands, bot) => {
   for (const key in commands) {
-    bot.command(key, commands[key]); 
+    bot.command(key, commands[key]);
   }
 }; // adds commands to bot
 
@@ -33,10 +39,56 @@ const findByCategory = (category, labs) => labs.filter(lab => lab.category === c
 
 const findByID = (ID, labs) => { // finds lab by id
   for (const lab of labs) {
-    if (lab.id == ID) {
+    if (lab.id === ID) {
       return lab;
     }
   }
+  return undefined;
+};
+
+const checkRightLoops = textFn => { // checks if loops are correct
+  let left = 0;
+  let right = 0;
+  let normal = true;
+  for (let i = 0; i < textFn.length; i++) {
+    if (textFn.substr(i, 3) === 'for' || textFn.substr(i, 5) === 'while') {
+      for (; i < textFn.length; i++) {
+        if (textFn[i] === '(') left++;
+        else if (textFn[i] === ')') right++;
+        if (left === right && left !== 0) break;
+      }
+      i++;
+      for (; i < textFn.length; i++) {
+        if (textFn[i] === '{') break;
+        if (textFn[i] !== '{' && textFn[i] !== ' ' && textFn[i] !== '\n') {
+          normal = false;
+        }
+      }
+    }
+  }
+  return normal;
+};
+
+const timeLimitWrap = function(codeStr) { // unables infinite loops by adding code
+  let newF =  codeStr.replace(/for *\(.*\{|while *\(.*\{|do *\{/, loopHead => `const start = Date.now();${loopHead}`);
+  newF = newF.replace(/for *\(.*\{|while *\(.*\{|do *\{/g, loopHead => `${loopHead}if(Date.now() - start > 1500) throw new Error('Time limit exceed');\n`);
+  return newF;
+};
+
+const restrictedChange = (list, textFn) => { // changes restricted keywords
+  let copy = fullCopy(textFn);
+  for (const restricted in list) {
+    copy = copy.replace(new RegExp(restricted, 'g'), list[restricted]);
+  }
+  return copy;
+};
+
+const removeSymbFromEnd = (symb, textFn) => { // removes symbols from string ending
+  let copy = fullCopy(textFn);
+  while (copy[copy.length - 1] === symb) {
+    copy = copy.substring(0, copy.length - 1);
+  }
+  return copy;
 };
 
 const prepareTextFunction = (textFn, list) => { // prepares users code
@@ -57,7 +109,9 @@ const testResultToText = result => { // creates text result for message
     } else {
       text += `Arguments: `;
       test.arguments
-        .forEach((x, i) => text += (`${JSON.stringify(x)}${i === test.arguments.length - 1 ? '\n\n' : ', '}`));
+        .forEach((x, i) => {
+          text += `${JSON.stringify(x)}${i === test.arguments.length - 1 ? '\n\n' : ', '}`;
+        });
       text += `Expected result: ${JSON.stringify(test.expectedResult)}\n\n`;
       text += `Result: ${JSON.stringify(test.result)}\n\n`;
       text += `Test is `;
@@ -78,11 +132,10 @@ async function getFunction(textFn, list) { //prepares and evaluates user code
   } catch (e) {
     console.log('Error while evaluating: ' + e);
   }
+  return () => {};
 }
 
 const isPassed = (res, expRes) => JSON.stringify(res) === JSON.stringify(expRes); //for functions with non-primitive results
-
-const fullCopy = x => JSON.parse(JSON.stringify(x)); // creates objects copy
 
 function checkFunction(fn, test) { // tests user code
   const results = [];
@@ -138,51 +191,6 @@ const isTestPassed = testResult => { // returrns true if all tests are passed
     if (!res.passed) done = false;
   });
   return done;
-};
-
-const timeLimitWrap = function(codeStr) { // unables infinite loops by adding code
-  let newF =  codeStr.replace(/for *\(.*\{|while *\(.*\{|do *\{/, loopHead => `const start = Date.now();${loopHead}`);
-  newF = newF.replace(/for *\(.*\{|while *\(.*\{|do *\{/g, loopHead => `${loopHead}if(Date.now() - start > 1500) throw new Error('Time limit exceed');\n`);
-  return newF;
-};
-
-const restrictedChange = (list, textFn) => { // changes restricted keywords
-  let copy = fullCopy(textFn);
-  for (const restricted in list) {
-    copy = copy.replace(new RegExp(restricted, 'g'), list[restricted]);
-  }
-  return copy;
-};
-
-const removeSymbFromEnd = (symb, textFn) => { // removes symbols from string ending
-  let copy = fullCopy(textFn);
-  while (copy[copy.length - 1] === symb) {
-    copy = copy.substring(0, copy.length - 1);
-  }
-  return copy;
-};
-
-const checkRightLoops = textFn => { // checks if loops are correct
-  let left = 0;
-  let right = 0;
-  let normal = true;
-  for (let i = 0; i < textFn.length; i++) {
-    if (textFn.substr(i, 3) === 'for' || textFn.substr(i, 5) === 'while') {
-      for (; i < textFn.length; i++) {
-        if (textFn[i] === '(') left++;
-        else if (textFn[i] === ')') right++;
-        if (left === right && left !== 0) break;
-      }
-      i++;
-      for (; i < textFn.length; i++) {
-        if (textFn[i] === '{') break;
-        if (textFn[i] !== '{' && textFn[i] !== ' ' && textFn[i] !== '\n') {
-          normal = false;
-        }
-      }
-    }
-  }
-  return normal;
 };
 
 const onCallbackQuery = (ctx, labs, statuses, bot) => { // starts if any button is pressed
