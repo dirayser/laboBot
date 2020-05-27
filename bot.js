@@ -23,7 +23,7 @@ const COMMANDS = {
         inline_keyboard,
       }),
     };
-    ctx.reply('Привет, я здесь чтобы давать тебе задания и автоматически их проверять!\nВыбери категорию заданий:', keyboard);
+    ctx.reply(`Привет, я здесь чтобы давать тебе задания и автоматически их проверять!\nВыбери категорию заданий:`, keyboard);
   },
   '/tasks': ctx => {
     const categories = FUNCTIONS.getCategories(LABS);
