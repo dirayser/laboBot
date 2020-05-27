@@ -8,9 +8,15 @@
       }
     },
     {
-      "files": ["./modules/functions.js"],
+      "files": ["./modules/functions.js", "./modules/botConstants.js"],
       "rules": {
-        "max-len": ["error", 160]
+        "max-len": ["error", 160] //for strings
+      }
+    },
+    {
+      "files": ["./modules/botConstants.js"],
+      "rules": {
+        "max-len": ["error", 400] // for descriptions
       }
     }
   ]

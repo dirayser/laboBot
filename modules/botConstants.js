@@ -7,20 +7,20 @@ const LABS = [
       [
         {
           m1: x => [x],
-          m2: function (x, y) {
-                return [x, y];
-              },
+          m2(x, y) {
+            return [x, y];
+          },
           m3(x, y, z) {
             return [x, y, z];
-          }
-       }
-    ]
-  ],
+          },
+        },
+      ],
+    ],
     results: [[
       ['m1', 1],
       ['m2', 2],
-      ['m3', 3]
-    ]]
+      ['m3', 3],
+    ]],
   },
   {
     category: 'Функции и методы',
@@ -30,9 +30,9 @@ const LABS = [
       [1, 2, 3],
       [5.2, 10],
       [17, -4, -3, -3],
-      ['Street ', 16]
+      ['Street ', 16],
     ],
-    results: [6, 15.2, 7, 'Street 16']
+    results: [6, 15.2, 7, 'Street 16'],
   },
   {
     category: 'Работа с массивами',
@@ -41,13 +41,13 @@ const LABS = [
     arguments: [
       [[1, 2, 3, 4, 5, 6, 7], 5],
       [['Kiev', 'Beijing', 'Lima', 'Saratov'], 'Lima'],
-      [['Kiev', 'Beijing', 'Lima', 'Saratov'], 'Berlin']
+      [['Kiev', 'Beijing', 'Lima', 'Saratov'], 'Berlin'],
     ],
     results: [
-      [1, 2, 3, 4, 6, 7], 
-      ['Kiev', 'Beijing', 'Saratov'], 
-      ['Kiev', 'Beijing', 'Lima', 'Saratov']
-    ]
+      [1, 2, 3, 4, 6, 7],
+      ['Kiev', 'Beijing', 'Saratov'],
+      ['Kiev', 'Beijing', 'Lima', 'Saratov'],
+    ],
   },
   {
     category: 'Функции и методы',
@@ -59,9 +59,9 @@ const LABS = [
       ['192.168.1.10'],
       ['165.225.133.150'],
       ['0.0.0.0'],
-      ['8.8.8.8']
+      ['8.8.8.8'],
     ],
-    results: [2130706433, 167772161, -1062731510, -1511946858, 0, 0x08080808]
+    results: [2130706433, 167772161, -1062731510, -1511946858, 0, 0x08080808],
   },
   {
     category: 'Циклы, итерирование',
@@ -70,9 +70,9 @@ const LABS = [
     arguments: [
       [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]],
       [[[1, -2, 3], [4, 17, 6], [7, 8, 0]]],
-      [[[-1, -2, -3], [-4, -5, -6], [-7, -8, -9]]]
+      [[[-1, -2, -3], [-4, -5, -6], [-7, -8, -9]]],
     ],
-    results: [9, 17, -1]
+    results: [9, 17, -1],
   },
   {
     category: 'Циклы, итерирование',
@@ -84,14 +84,14 @@ const LABS = [
         mao: { born: 1893, died: 1976 },
         gandhi: { born: 1869, died: 1948 },
         hirohito: { born: 1901, died: 1989 },
-      }]
+      }],
     ],
     results: [{
-        lenin: 54,
-        mao: 83,
-        gandhi: 79,
-        hirohito: 88,
-       }]
+      lenin: 54,
+      mao: 83,
+      gandhi: 79,
+      hirohito: 88,
+    }],
   },
   {
     category: 'Работа с массивами',
@@ -100,9 +100,9 @@ const LABS = [
     arguments: [
       [[2, 1, 1, 3, 2]],
       [['top', 'bottom', 'top', 'left']],
-      [['top', 0, 'top', false]]
+      [['top', 0, 'top', false]],
     ],
-    results: [[2, 1, 3], ['top', 'bottom', 'left'], ['top', 0, false]]
+    results: [[2, 1, 3], ['top', 'bottom', 'left'], ['top', 0, false]],
   },
   {
     category: 'Работа с массивами',
@@ -112,71 +112,71 @@ const LABS = [
       [[7, -2, 10, 5], [0, 10]],
       [['Beijing', 'Kiev'], ['Kiev', 'London', 'Baghdad']],
     ],
-    results: [[7, -2, 5], ['Beijing']]
+    results: [[7, -2, 5], ['Beijing']],
   },
   {
     category: 'Функции высшего порядка',
     labName: 'Итерирование с коллбэками',
     description: 'Задача 1: https://github.com/HowProgrammingWorks/HigherOrderFunction/blob/master/Exercises.ru.md',
-    ownDecision: true
+    ownDecision: true,
   },
   {
     category: 'Функции высшего порядка',
     labName: 'Замыкание',
     description: 'Задача 2: https://github.com/HowProgrammingWorks/HigherOrderFunction/blob/master/Exercises.ru.md',
-    ownDecision: true
+    ownDecision: true,
   },
   {
     category: 'Функции высшего порядка',
     labName: 'Контракт функции',
     description: 'Задача 3: https://github.com/HowProgrammingWorks/HigherOrderFunction/blob/master/Exercises.ru.md',
-    ownDecision: true
+    ownDecision: true,
   },
   {
     category: 'Композиция функций',
     labName: 'Композиция в обе стороны',
     description: 'Задача 1 и 2: https://github.com/HowProgrammingWorks/Composition/blob/master/Exercises.ru.md',
-    ownDecision: true
+    ownDecision: true,
   },
   {
     category: 'Замыкания и чеининг',
     labName: 'Замыкание функций',
     description: 'Задача 1: https://github.com/HowProgrammingWorks/Closure/blob/master/Exercises.ru.md',
-    ownDecision: true
+    ownDecision: true,
   },
   {
     category: 'Замыкания и чеининг',
     labName: 'Функциональный объект',
     description: 'Задача 2: https://github.com/HowProgrammingWorks/Closure/blob/master/Exercises.ru.md',
-    ownDecision: true
+    ownDecision: true,
   },
 ];
 const restrictedChangeList = {
-  'console' : 'consolе',
-  'require' : 'requirе',
-  'bot' : 'bоt',
-  'sendMessage' : 'SеndMessage',
-  'Telegraf' : 'Telegrаf',
-  'TOKEN' : 'T0KEN',
-  'reply' : 'replу',
-  'Error' : 'Errоr',
-  'throw' : 'thrоw',
-  'exec' : 'exес',
-  'process' : 'prоcess',
-  'eval' : 'evаl',
-  '__app' : '__apр',
-  'fs' : 'FS',
-  'LABS' : 'L4BS',
+  'console': 'consolе',
+  'require': 'requirе',
+  'bot': 'bоt',
+  'sendMessage': 'SеndMessage',
+  'Telegraf': 'Telegrаf',
+  'TOKEN': 'T0KEN',
+  'reply': 'replу',
+  'Error': 'Errоr',
+  'throw': 'thrоw',
+  'exec': 'exес',
+  'process': 'prоcess',
+  'eval': 'evаl',
+  '__app': '__apр',
+  'fs': 'FS',
+  'LABS': 'L4BS',
   'restrictedChangeList': 'restrictedChangеList',
-  'CONSTANTS' : 'C0NSTANTS',
-  'COMMANDS' : 'C0MMANDS',
-  'FUNCTIONS' : 'FUNCTI0NS',
-  'STATUSES' : 'STАTUSES'
+  'CONSTANTS': 'C0NSTANTS',
+  'COMMANDS': 'C0MMANDS',
+  'FUNCTIONS': 'FUNCTI0NS',
+  'STATUSES': 'STАTUSES',
 };
 
 const BOT_URL = process.env.BOT_URL;
 const TOKEN = process.env.BOT_TOKEN;
-const MANUAL = 'manual.txt'
+const MANUAL = 'manual.txt';
 
 module.exports = {
   LABS,
@@ -184,4 +184,4 @@ module.exports = {
   BOT_URL,
   TOKEN,
   MANUAL,
-}
+};
