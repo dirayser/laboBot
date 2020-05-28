@@ -2,21 +2,9 @@
   "extends": "metarhia",
   "overrides": [
     {
-      "files": ["bot.js", "./modules/functions.js"],
+      "files": ["bot.js"],
       "rules": {
         "camelcase": "off"
-      }
-    },
-    {
-      "files": ["./modules/functions.js", "./modules/botConstants.js"],
-      "rules": {
-        "max-len": ["error", 160] //for strings
-      }
-    },
-    {
-      "files": ["./modules/botConstants.js"],
-      "rules": {
-        "max-len": ["error", 400] // for descriptions
       }
     }
   ]
