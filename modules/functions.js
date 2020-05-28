@@ -147,7 +147,7 @@ function checkFunction(fn, test) { // tests user code
       results.push({
         arguments: args,
         result,
-        expectedResult: serialize(test.results[testIndex]),
+        expectedResult: fullCopy(test.results[testIndex]),
         passed: isPassed(result, test.results[testIndex]),
       });
     } catch (e) {
