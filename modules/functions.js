@@ -143,11 +143,11 @@ function checkFunction(fn, test) { // tests user code
   const results = [];
   test.arguments.forEach((args, testIndex) => {
     try {
-      const result = fn(...fullCopy(args));
+      const result = fn(...args);
       results.push({
         arguments: args,
         result,
-        expectedResult: fullCopy(test.results[testIndex]),
+        expectedResult: serialize(test.results[testIndex]),
         passed: isPassed(result, test.results[testIndex]),
       });
     } catch (e) {
