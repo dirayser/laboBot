@@ -1,5 +1,7 @@
 'use strict';
 
+const serialize = require('serialize-javascript');
+
 const fullCopy = x => JSON.parse(JSON.stringify(x)); // creates objects copy
 
 function getManual(fs, file, commands) { //gets manual from file
@@ -110,7 +112,7 @@ const testResultToText = result => { // creates text result for message
       text += `Arguments: `;
       test.arguments
         .forEach((x, i) => {
-          text += `${JSON.stringify(x)}${i === test.arguments.length - 1 ? '\n\n' : ', '}`;
+          text += `${serialize(x)}${i === test.arguments.length - 1 ? '\n\n' : ', '}`;
         });
       text += `Expected result: ${JSON.stringify(test.expectedResult)}\n\n`;
       text += `Result: ${JSON.stringify(test.result)}\n\n`;
