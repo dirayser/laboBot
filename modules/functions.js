@@ -72,8 +72,12 @@ const checkRightLoops = textFn => { // checks if loops are correct
 };
 
 const timeLimitWrap = function(codeStr) { // unables infinite loops by adding code
-  let newF =  codeStr.replace(/for *\(.*\{|while *\(.*\{|do *\{/, loopHead => `const start = Date.now();${loopHead}`);
-  newF = newF.replace(/for *\(.*\{|while *\(.*\{|do *\{/g, loopHead => `${loopHead}if(Date.now() - start > 1500) throw new Error('Time limit exceed');\n`);
+  let newF =  codeStr.replace(/for *\(.*\{|while *\(.*\{|do *\{/, loopHead => {
+    return `const start = Date.now();${loopHead}`;
+  })
+  newF = newF.replace(/for *\(.*\{|while *\(.*\{|do *\{/g, loopHead => {
+    return `${loopHead}if(Date.now() - start > 1500) throw new Error('Time limit exceed');\n`;
+  })
   return newF;
 };
 
